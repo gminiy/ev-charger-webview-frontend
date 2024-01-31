@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import { ReviewType } from "./reviewList";
+import { FaultReportType } from "./faultReportList";
 import moment from "moment";
 
-type ReviewProps = {
-  review: ReviewType;
+type FaultReportProps = {
+  faultReport: FaultReportType;
 };
 
-const ReviewBlock = styled.div`
+const FaultReportBlock = styled.div`
   background-color: #ffffff;
   padding-bottom: 16px;
 `;
 
-const ReviewInfoBlock = styled.div`
+const FaultReportInfoBlock = styled.div`
   display: flex;
 `;
 
@@ -46,19 +46,19 @@ const Content = styled.div`
   text-overflow: ellipsis;
 `;
 
-const Review: React.FC<ReviewProps> = ({ review }) => {
+const FaultReport: React.FC<FaultReportProps> = ({ faultReport }) => {
   return (
-    <ReviewBlock>
-      <ReviewInfoBlock>
-        <Nickname>{review.userNickname}</Nickname>
+    <FaultReportBlock>
+      <FaultReportInfoBlock>
+        <Nickname>{faultReport.userNickname}</Nickname>
         <UpdatedDate>
-          {moment(review.updatedAt * 1000).format("YYYY-MM-DD")}
+          {moment(faultReport.updatedAt * 1000).format("YYYY-MM-DD")}
         </UpdatedDate>
-      </ReviewInfoBlock>
-      <Title>{review.title}</Title>
-      <Content>{review.content}</Content>
-    </ReviewBlock>
+      </FaultReportInfoBlock>
+      <Title>{faultReport.title}</Title>
+      <Content>{faultReport.content}</Content>
+    </FaultReportBlock>
   );
 };
 
-export default Review;
+export default FaultReport;

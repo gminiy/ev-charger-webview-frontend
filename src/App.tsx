@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import ChargerInfo from "./components/chargerInfo";
 import ReviewList from "./components/reviewList";
+import FaultReportList from "./components/faultReportList";
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #f5f5f5; // 옅은 회색 배경
@@ -38,85 +39,24 @@ const mockReviews = [
     chargerId: "3",
     updatedAt: 1706858171,
   },
+];
+
+const mockFaultReport = [
   {
-    id: "3",
-    title: "훌륭한 서비스",
-    content: "다음에도 이용할 예정입니다",
-    userNickname: "user7",
-    chargerId: "4",
-    updatedAt: 1706967211,
-  },
-  {
-    id: "4",
-    title: "빠른 충전",
-    content: "다음에도 이용할 예정입니다",
-    userNickname: "user5",
-    chargerId: "10",
-    updatedAt: 1707030390,
-  },
-  {
-    id: "5",
-    title: "좋은 충전기",
-    content: "충전기 위치가 좋았어요",
-    userNickname: "user5",
-    chargerId: "1",
-    updatedAt: 1706314362,
-  },
-  {
-    id: "6",
-    title: "친절한 서비스",
-    content: "충전기가 잘 작동했습니다",
-    userNickname: "user3",
-    chargerId: "19",
-    updatedAt: 1707038120,
-  },
-  {
-    id: "7",
-    title: "빠른 충전",
-    content: "빠른 충전에 만족합니다",
-    userNickname: "user2",
-    chargerId: "5",
-    updatedAt: 1706924293,
-  },
-  {
-    id: "8",
-    title: "친절한 서비스",
-    content: "충전 속도가 빨라서 좋았습니다",
-    userNickname: "user2",
-    chargerId: "8",
-    updatedAt: 1706401376,
-  },
-  {
-    id: "9",
-    title: "편리한 위치",
-    content: "가격 대비 훌륭한 서비스",
-    userNickname: "user10",
-    chargerId: "1",
-    updatedAt: 1706241699,
-  },
-  {
-    id: "10",
-    title: "추천합니다",
-    content: "충전 속도가 빨라서 좋았습니다",
+    id: "21",
+    title: "충전 불가 상태",
+    content: "충전기에서 이상한 소리가 나요",
     userNickname: "user9",
-    chargerId: "16",
-    updatedAt: 1707041099,
-  },
-  {
-    id: "11",
-    title: "추천하지 않음",
-    content: "충전 속도가 너무 느려요",
-    userNickname: "user9",
-    chargerId: "7",
-    updatedAt: 1706470393,
-  },
-  {
-    id: "12",
-    title: "문제가 많은 충전기",
-    content: "다음에는 이용하고 싶지 않아요",
-    userNickname: "user0",
     chargerId: "4",
-    updatedAt: 1706339487,
+    updatedAt: 1706604401,
+  },
+  {
+    id: "22",
+    title: "충전 불가 상태",
+    content: "충전 포트가 손상된 것 같습니다",
+    userNickname: "user6",
+    chargerId: "12",
+    updatedAt: 1706446771,
   },
 ];
 
@@ -129,6 +69,7 @@ function App() {
         address="서울특별시 강남구 역삼동 1000-100"
       />
       <ReviewList reviews={mockReviews} />
+      <FaultReportList faultReports={mockFaultReport} />
     </>
   );
 }
