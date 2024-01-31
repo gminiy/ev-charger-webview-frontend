@@ -41,9 +41,9 @@ const STATUS = [
 ];
 
 const ChargerInfoBlock = styled.div`
-  background-color: #ffffff; // 옅은 회색 배경
+  background-color: #ffffff;
   padding: 16px 32px;
-  line-height: 1.5;
+  margin-bottom: 10px;
 `;
 
 const Title = styled.div`
@@ -51,14 +51,12 @@ const Title = styled.div`
   font-weight: bold;
   color: #333;
   margin-bottom: 8px;
-  line-height: 1.5;
 `;
 
 const Location = styled.div`
   font-size: 20px;
   font-weight: bold;
   color: #555555;
-  line-height: 1.5;
 `;
 
 const Address = styled.div`
@@ -84,20 +82,19 @@ const ChargerType = styled.div`
 `;
 
 const Card = styled.div`
-  background-color: #f5f5f5; // 연한 회색 배경
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // 그림자 효과
-  border-radius: 8px; // 둥근 모서리
-  padding: 20px; // 내부 여백
-  margin: 10px 0; // 위아래 여백
-  max-width: 300px; // 최대 너비
-  box-sizing: border-box; // 박스 크기 계산 방식
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px 0;
+  max-width: 300px;
+  box-sizing: border-box;
 `;
 
 const Status = styled.div<StatusProps>`
   font-size: 20px;
   font-weight: bold;
-  color: ${(props) =>
-    props.isAvailableCharger ? "#28a745" : "#dc3545"}; // 조건부 색상
+  color: ${(props) => (props.isAvailableCharger ? "#28a745" : "#dc3545")};
   margin-bottom: 8px;
 `;
 
@@ -107,7 +104,6 @@ const ChargingTimeInfo = styled.div`
   margin-bottom: 8px;
   padding-left: 10px;
   border-left: 2px solid #ddd;
-  line-height: 1.4;
 `;
 
 const OutputBlock = styled.div`
