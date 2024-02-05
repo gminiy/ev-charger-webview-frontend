@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { ReviewType } from "./reviewList";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 type ReviewFormProps = {
   chargerId: string;
@@ -28,6 +29,12 @@ const Text = styled.div`
   margin-top: 24px;
   font-size: 20px;
   font-weight: bold;
+`;
+
+const Warning = styled.div`
+  font-size: 12px;
+  color: red;
+  text-align: right;
 `;
 
 const Input = styled.input`
@@ -70,8 +77,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   userId,
   review,
 }) => {
+  const maxTitleLength = 50;
+  const maxContentLength = 256;
   const [title, setTitle] = useState("");
+  const [isTitleOverflow, setIsTitleOverflow] = useState(false);
   const [content, setContent] = useState("");
+  const [isContentOverflow, setIsContentOverflow] = useState(false);
 
   useEffect(() => {
     if (review) {
@@ -83,11 +94,40 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const handleContentChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setContent(event.target.value);
+    const input = event.target.value;
+    if (input.length > maxContentLength) {
+      setIsContentOverflow(true);
+      return;
+    }
+    setContent(input);
+    setIsContentOverflow(false);
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    const input = event.target.value;
+    if (input.length > maxTitleLength) {
+      setIsTitleOverflow(true);
+      return;
+    }
+    setTitle(input);
+    setIsTitleOverflow(false);
+  };
+
+  const handleSubmit = async () => {
+    if (title.length === 0 || content.length === 0) {
+      alert("제목과 내용을 작성해주세요.");
+      return;
+    }
+    try {
+      await axios.post("http://10.0.2.2:8080/review/register", {
+        title,
+        content,
+        chargerId,
+        userId,
+      });
+    } catch (e) {
+      alert("요청 실패, 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -99,16 +139,22 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           value={title}
           onChange={handleTitleChange}
         />
+        {isTitleOverflow && (
+          <Warning>입력 가능한 글자 수를 초과했습니다.</Warning>
+        )}
         <Text>내용</Text>
         <TextArea
           placeholder="내용을 입력해주세요"
           value={content}
           onChange={handleContentChange}
-          rows={8} // 초기 행 수
+          rows={8}
         />
-        <TextCount>{`${content.length} / 1200`}</TextCount>
+        <TextCount>{`${content.length} / ${maxContentLength}`}</TextCount>
+        {isContentOverflow && (
+          <Warning>입력 가능한 글자 수를 초과했습니다.</Warning>
+        )}
       </ReviewFormBlock>
-      <Button>작성 완료</Button>
+      <Button onClick={handleSubmit}>작성 완료</Button>
     </ReviewFormContainer>
   );
 };
