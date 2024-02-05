@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Footer from "./components/footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ChargerDetailScreen from "./screen/chargerDetailScreen";
+import ReviewForm from "./components/reviewForm";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -13,17 +14,6 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     letter-spacing: 1px;
   }
-`;
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  position: relative;
-  padding-bottom: 60px;
-`;
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 let isFlutterInAppWebViewReady = false;
 
@@ -71,6 +61,10 @@ function App() {
             element={
               <ChargerDetailScreen chargerId={chargerId} userId={userId} />
             }
+          />
+          <Route
+            path="/review-form"
+            element={<ReviewForm chargerId={chargerId} userId={userId} />}
           />
         </Routes>
       </Router>

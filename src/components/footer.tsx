@@ -2,6 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 import CampaignIcon from "@mui/icons-material/Campaign";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 type FooterProps = {
   chargerId: string;
@@ -34,9 +41,13 @@ const Text = styled.div`
 `;
 
 const Footer: React.FC<FooterProps> = ({ chargerId, userId }) => {
+  const navigate = useNavigate();
+
   const faultReportHandler = () => {};
 
-  const writeReviewHandler = () => {};
+  const writeReviewHandler = () => {
+    navigate("/review-form");
+  };
 
   return (
     <FooterContainer>
