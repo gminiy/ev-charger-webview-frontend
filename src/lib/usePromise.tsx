@@ -10,8 +10,6 @@ export default function usePromise(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    console.log("running");
-
     const process = async () => {
       setLoading(true);
       try {

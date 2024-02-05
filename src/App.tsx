@@ -4,6 +4,8 @@ import ReviewList from "./components/reviewList";
 import FaultReportList from "./components/faultReportList";
 import { useEffect, useState } from "react";
 import Footer from "./components/footer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ChargerDetailScreen from "./screen/chargerDetailScreen";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -62,14 +64,16 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <Wrapper>
-        <ContentContainer>
-          <ChargerInfo chargerId={chargerId} />
-          <ReviewList chargerId={chargerId} />
-          <FaultReportList chargerId={chargerId} />
-        </ContentContainer>
-        <Footer chargerId={chargerId} userId={userId} />
-      </Wrapper>
+      <Router>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ChargerDetailScreen chargerId={chargerId} userId={userId} />
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
 }
