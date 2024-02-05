@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Review from "./review";
+import axios from "axios";
+import usePromise from "../lib/usePromise";
 
 export type ReviewType = {
   id: string;
@@ -11,13 +13,15 @@ export type ReviewType = {
 };
 
 type ReviewListProps = {
-  reviews: ReviewType[];
+  chargerId: string;
 };
+
 const ReviewListBlock = styled.div`
   background-color: #ffffff;
   padding: 16px 32px;
   line-height: 1.5;
   line-width: 1.5;
+  margin-bottom: 10px;
 `;
 
 const Title = styled.div`
@@ -38,14 +42,32 @@ const ReviewsCount = styled.div`
   align-items: flex-end;
 `;
 
-const ReviewList: React.FC<ReviewListProps> = ({ reviews }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ chargerId }) => {
+  const [loading, response, error] = usePromise(() => {
+    return axios.get(`http://10.0.2.2:8080/review/${chargerId}`);
+  }, [chargerId]);
+
+  if (loading) {
+    return <ReviewListBlock />;
+  }
+
+  if (error) {
+    return <ReviewListBlock>에러 발생</ReviewListBlock>;
+  }
+
+  if (!response) {
+    return null;
+  }
+
+  const reviews = response.data;
+
   return (
     <ReviewListBlock>
       <Title>
         충전기 리뷰
         <ReviewsCount>{reviews.length}</ReviewsCount>
       </Title>
-      {reviews.map((review) => (
+      {reviews.map((review: ReviewType) => (
         <Review review={review} />
       ))}
     </ReviewListBlock>

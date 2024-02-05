@@ -1,19 +1,10 @@
 import styled from "styled-components";
 import { getTimeDifferenceString } from "../lib/getTimeDifferenceString";
-type Charger = {
-  id: string;
-  chargeType: number;
-  location: string;
-  status: number;
-  lastStatusUpdatedAt: number;
-  output: number;
-  lastStartChargingTimestamp?: number;
-  lastEndChargingTimestamp?: number;
-};
+import usePromise from "../lib/usePromise";
+import axios from "axios";
 
 type ChargerInfoProps = {
-  charger: Charger;
-  address: string;
+  chargerId: string;
 };
 
 type StatusProps = {
@@ -112,7 +103,24 @@ const OutputBlock = styled.div`
   align-items: center;
 `;
 
-const ChargerInfo: React.FC<ChargerInfoProps> = ({ address, charger }) => {
+const ChargerInfo: React.FC<ChargerInfoProps> = ({ chargerId }) => {
+  const [loading, response, error] = usePromise(() => {
+    return axios.get(`http://10.0.2.2:8080/charger?chargerId=${chargerId}`);
+  }, [chargerId]);
+
+  if (loading) {
+    return <ChargerInfoBlock />;
+  }
+
+  if (error) {
+    return <ChargerInfoBlock>에러 발생</ChargerInfoBlock>;
+  }
+
+  if (!response) {
+    return null;
+  }
+
+  const charger = response.data;
   let chargingTimeInfoString;
 
   if (charger.lastStartChargingTimestamp && charger.lastEndChargingTimestamp) {
@@ -137,16 +145,16 @@ const ChargerInfo: React.FC<ChargerInfoProps> = ({ address, charger }) => {
   return (
     <ChargerInfoBlock>
       <Title>충전기 정보</Title>
-      <Location>{charger.location}</Location>
-      <Address>{address}</Address>
+      <Location>{response.data.location}</Location>
+      <Address>{response.data.address}</Address>
       <OutputBlock>
-        <Output>{charger.output}kW</Output>
-        <ChargerType>{CHARGER_TYPES[charger.chargeType]}</ChargerType>
+        <Output>{response.data.output}kW</Output>
+        <ChargerType>{CHARGER_TYPES[response.data.chargeType]}</ChargerType>
       </OutputBlock>
 
       <Card>
-        <Status isAvailableCharger={charger.status === 1}>
-          {STATUS[charger.status]}
+        <Status isAvailableCharger={response.data.status === 1}>
+          {STATUS[response.data.status]}
         </Status>
         <ChargingTimeInfo>{chargingTimeInfoString}</ChargingTimeInfo>
       </Card>

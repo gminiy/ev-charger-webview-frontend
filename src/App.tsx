@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import ChargerInfo from "./components/chargerInfo";
 import ReviewList from "./components/reviewList";
 import FaultReportList from "./components/faultReportList";
+import { useEffect, useState } from "react";
+
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #f5f5f5; // 옅은 회색 배경
@@ -10,66 +12,48 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const mockCharger = {
-  id: "20",
-  chargeType: 2,
-  location: "B 구역 3",
-  status: 1,
-  lastStatusUpdatedAt: 1706156202,
-  output: 7,
-  lastStartChargingTimestamp: 1706155870,
-  lastEndChargingTimestamp: 1706159470,
-};
+let isFlutterInAppWebViewReady = false;
 
-const mockReviews = [
-  {
-    id: "1",
-    title: "좋은 충전기",
-    content:
-      "다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다. 다음에도 이용할 예정입니다.다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다다음에도 이용할 예정입니다",
-    userNickname: "user1",
-    chargerId: "13",
-    updatedAt: 1706846486,
-  },
-  {
-    id: "2",
-    title: "훌륭한 충전",
-    content: "친절한 직원 덕분에 좋은 경험을 했습니다",
-    userNickname: "user9",
-    chargerId: "3",
-    updatedAt: 1706858171,
-  },
-];
+window.addEventListener("flutterInAppWebViewPlatformReady", () => {
+  isFlutterInAppWebViewReady = true;
+});
 
-const mockFaultReport = [
-  {
-    id: "21",
-    title: "충전 불가 상태",
-    content: "충전기에서 이상한 소리가 나요",
-    userNickname: "user9",
-    chargerId: "4",
-    updatedAt: 1706604401,
-  },
-  {
-    id: "22",
-    title: "충전 불가 상태",
-    content: "충전 포트가 손상된 것 같습니다",
-    userNickname: "user6",
-    chargerId: "12",
-    updatedAt: 1706446771,
-  },
-];
+declare global {
+  interface Window {
+    flutter_inappwebview: any;
+  }
+}
 
 function App() {
+  const [chargerId, setChargerId] = useState("");
+  const [userId, setUserId] = useState("");
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (isFlutterInAppWebViewReady) {
+      window.flutter_inappwebview
+        .callHandler("initDataHandler")
+        .then((data: string) => {
+          const initData: { userId: string; chargerId: string } =
+            JSON.parse(data);
+          setChargerId(initData.chargerId);
+          setUserId(initData.userId);
+        });
+      return;
+    }
+    setCount(count + 1);
+  }, [count]);
+
+  if (!chargerId) {
+    return <></>;
+  }
+
   return (
     <>
       <GlobalStyle />
-      <ChargerInfo
-        charger={mockCharger}
-        address="서울특별시 강남구 역삼동 1000-100"
-      />
-      <ReviewList reviews={mockReviews} />
-      <FaultReportList faultReports={mockFaultReport} />
+      <ChargerInfo chargerId={chargerId} />
+      <ReviewList chargerId={chargerId} />
+      <FaultReportList chargerId={chargerId} />
     </>
   );
 }
