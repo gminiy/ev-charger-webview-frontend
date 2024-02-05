@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import ChargerInfo from "./components/chargerInfo";
 import ReviewList from "./components/reviewList";
 import FaultReportList from "./components/faultReportList";
@@ -7,12 +7,22 @@ import Footer from "./components/footer";
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: #f5f5f5; // 옅은 회색 배경
+    background-color: #f5f5f5;
     line-height: 1.5;
     letter-spacing: 1px;
   }
 `;
-
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+`;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 let isFlutterInAppWebViewReady = false;
 
 window.addEventListener("flutterInAppWebViewPlatformReady", () => {
@@ -45,17 +55,21 @@ function App() {
     setCount(count + 1);
   }, [count]);
 
-  if (!chargerId) {
+  if (!chargerId || !userId) {
     return <></>;
   }
 
   return (
     <>
       <GlobalStyle />
-      <ChargerInfo chargerId={chargerId} />
-      <ReviewList chargerId={chargerId} />
-      <FaultReportList chargerId={chargerId} />
-      <Footer />
+      <Wrapper>
+        <ContentContainer>
+          <ChargerInfo chargerId={chargerId} />
+          <ReviewList chargerId={chargerId} />
+          <FaultReportList chargerId={chargerId} />
+        </ContentContainer>
+        <Footer chargerId={chargerId} userId={userId} />
+      </Wrapper>
     </>
   );
 }

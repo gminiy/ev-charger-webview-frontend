@@ -3,6 +3,11 @@ import styled from "styled-components";
 import EditIcon from "@mui/icons-material/Edit";
 import CampaignIcon from "@mui/icons-material/Campaign";
 
+type FooterProps = {
+  chargerId: string;
+  userId: string;
+};
+
 const FooterContainer = styled.div`
   position: fixed;
   bottom: 0;
@@ -28,7 +33,7 @@ const Text = styled.div`
   margin-left: 8px;
 `;
 
-const Footer: React.FC = () => {
+const Footer: React.FC<FooterProps> = ({ chargerId, userId }) => {
   const faultReportHandler = () => {};
 
   const writeReviewHandler = () => {};

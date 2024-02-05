@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Review from "./review";
 import axios from "axios";
 import usePromise from "../lib/usePromise";
+import Forum from "@mui/icons-material/ForumOutlined";
 
 export type ReviewType = {
   id: string;
@@ -42,6 +43,15 @@ const ReviewsCount = styled.div`
   align-items: flex-end;
 `;
 
+const DefaultReviewsBlock = styled.div`
+  display: flex;
+  margin: 32px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+`;
+
 const ReviewList: React.FC<ReviewListProps> = ({ chargerId }) => {
   const [loading, response, error] = usePromise(() => {
     return axios.get(`http://10.0.2.2:8080/review/${chargerId}`);
@@ -67,9 +77,16 @@ const ReviewList: React.FC<ReviewListProps> = ({ chargerId }) => {
         충전기 리뷰
         <ReviewsCount>{reviews.length}</ReviewsCount>
       </Title>
-      {reviews.map((review: ReviewType) => (
-        <Review review={review} />
-      ))}
+      {reviews.length === 0 ? (
+        <DefaultReviewsBlock>
+          <Forum sx={{ fontSize: 72, color: "#999", marginBottom: "16px" }} />
+          충전기에 대한 경험을 공유해 주세요.
+        </DefaultReviewsBlock>
+      ) : (
+        reviews.map((review: ReviewType) => (
+          <Review key={review.id} review={review} />
+        ))
+      )}
     </ReviewListBlock>
   );
 };
