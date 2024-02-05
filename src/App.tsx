@@ -1,12 +1,9 @@
-import styled, { createGlobalStyle } from "styled-components";
-import ChargerInfo from "./components/chargerInfo";
-import ReviewList from "./components/reviewList";
-import FaultReportList from "./components/faultReportList";
+import { createGlobalStyle } from "styled-components";
 import { useEffect, useState } from "react";
-import Footer from "./components/footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ChargerDetailScreen from "./screen/chargerDetailScreen";
 import ReviewForm from "./components/reviewForm";
+import FaultReportForm from "./components/faultReportForm";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -65,6 +62,10 @@ function App() {
           <Route
             path="/review-form"
             element={<ReviewForm chargerId={chargerId} userId={userId} />}
+          />
+          <Route
+            path="/fault-report-form"
+            element={<FaultReportForm chargerId={chargerId} userId={userId} />}
           />
         </Routes>
       </Router>

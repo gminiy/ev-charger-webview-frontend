@@ -43,7 +43,9 @@ const Text = styled.div`
 const Footer: React.FC<FooterProps> = ({ chargerId, userId }) => {
   const navigate = useNavigate();
 
-  const faultReportHandler = () => {};
+  const faultReportHandler = () => {
+    navigate("/fault-report-form");
+  };
 
   const writeReviewHandler = () => {
     navigate("/review-form");
