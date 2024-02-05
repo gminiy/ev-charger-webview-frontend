@@ -3,6 +3,7 @@ import ChargerInfo from "./components/chargerInfo";
 import ReviewList from "./components/reviewList";
 import FaultReportList from "./components/faultReportList";
 import { useEffect, useState } from "react";
+import Footer from "./components/footer";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -54,6 +55,7 @@ function App() {
       <ChargerInfo chargerId={chargerId} />
       <ReviewList chargerId={chargerId} />
       <FaultReportList chargerId={chargerId} />
+      <Footer />
     </>
   );
 }
