@@ -65,9 +65,13 @@ const FaultReportList: React.FC<FaultReportListProps> = ({ chargerId }) => {
         고장 신고
         <FaultReportsCount>{faultReports.length}</FaultReportsCount>
       </Title>
-      {faultReports.map((faultReport: FaultReportType) => (
-        <FaultReport faultReport={faultReport} />
-      ))}
+      {faultReports
+        .sort(
+          (a: FaultReportType, b: FaultReportType) => b.updatedAt - a.updatedAt
+        )
+        .map((faultReport: FaultReportType) => (
+          <FaultReport key={faultReport.id} faultReport={faultReport} />
+        ))}
     </FaultReportListBlock>
   );
 };

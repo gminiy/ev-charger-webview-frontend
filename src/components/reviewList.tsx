@@ -83,9 +83,11 @@ const ReviewList: React.FC<ReviewListProps> = ({ chargerId }) => {
           충전기에 대한 경험을 공유해 주세요.
         </DefaultReviewsBlock>
       ) : (
-        reviews.map((review: ReviewType) => (
-          <Review key={review.id} review={review} />
-        ))
+        reviews
+          .sort((a: ReviewType, b: ReviewType) => b.updatedAt - a.updatedAt)
+          .map((review: ReviewType) => (
+            <Review key={review.id} review={review} />
+          ))
       )}
     </ReviewListBlock>
   );

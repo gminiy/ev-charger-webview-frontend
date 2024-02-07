@@ -1,16 +1,16 @@
 import styled from "styled-components";
-import { FaultReportType } from "./faultReportList";
+import { ReviewType } from "../components/reviewList";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-type FaultReportFormProps = {
+type ReviewFormProps = {
   chargerId: string;
   userId: string;
-  review?: FaultReportType;
+  review?: ReviewType;
 };
 
-const FaultReportFormContainer = styled.div`
+const ReviewFormContainer = styled.div`
   background-color: #ffffff;
   padding-bottom: 16px;
   display: flex;
@@ -20,7 +20,7 @@ const FaultReportFormContainer = styled.div`
   height: 100vh;
 `;
 
-const FaultReportFormBlock = styled.div`
+const ReviewFormBlock = styled.div`
   padding-bottom: 16px;
   display: flex;
   flex-direction: column;
@@ -69,6 +69,12 @@ const TextCount = styled.div`
   margin-right: 16px;
 `;
 
+const NoteText = styled.div`
+  font-size: 12px;
+  color: #888;
+  white-space: pre-wrap;
+`;
+
 const Button = styled.button`
   position: fixed;
   bottom: 0;
@@ -85,7 +91,7 @@ const Button = styled.button`
   margin: 32px 0px;
 `;
 
-const FaultReportForm: React.FC<FaultReportFormProps> = ({
+const ReviewForm: React.FC<ReviewFormProps> = ({
   chargerId,
   userId,
   review,
@@ -133,7 +139,7 @@ const FaultReportForm: React.FC<FaultReportFormProps> = ({
       return;
     }
     try {
-      await axios.post("http://10.0.2.2:8080/fault-report/register", {
+      await axios.post("http://10.0.2.2:8080/review/register", {
         title,
         content,
         chargerId,
@@ -146,9 +152,9 @@ const FaultReportForm: React.FC<FaultReportFormProps> = ({
   };
 
   return (
-    <FaultReportFormContainer>
-      <FaultReportFormBlock>
-        <Title>고장 신고</Title>
+    <ReviewFormContainer>
+      <ReviewFormBlock>
+        <Title>리뷰 쓰기</Title>
         <Text>제목</Text>
         <Input
           placeholder="제목을 입력해주세요"
@@ -166,13 +172,18 @@ const FaultReportForm: React.FC<FaultReportFormProps> = ({
           rows={8}
         />
         <TextCount>{`${content.length} / ${maxContentLength}`}</TextCount>
+        <NoteText>
+          {
+            "사실관계와 다른 취지의 글은 법적 책임을 물을 수\n있으므로 주의해주세요."
+          }
+        </NoteText>
         {isContentOverflow && (
           <Warning>입력 가능한 글자 수를 초과했습니다.</Warning>
         )}
-      </FaultReportFormBlock>
+      </ReviewFormBlock>
       <Button onClick={handleSubmit}>작성 완료</Button>
-    </FaultReportFormContainer>
+    </ReviewFormContainer>
   );
 };
 
-export default FaultReportForm;
+export default ReviewForm;

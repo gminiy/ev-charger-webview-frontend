@@ -2,8 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ChargerDetailScreen from "./screen/chargerDetailScreen";
-import ReviewForm from "./components/reviewForm";
-import FaultReportForm from "./components/faultReportForm";
+import ReviewForm from "./screen/reviewFormScreen";
+import FaultReportForm from "./screen/faultReportFormScreen";
 
 const GlobalStyle = createGlobalStyle`
   body {
